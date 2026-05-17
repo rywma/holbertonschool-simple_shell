@@ -16,7 +16,7 @@ char **tokenize(char *line)
 	if (tokens == NULL)
 	{
 		perror("malloc");
-			return (NULL);
+		return (NULL);
 	}
 
 	token = strtok(line, DELIMITERS);
