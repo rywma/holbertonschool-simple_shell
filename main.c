@@ -18,7 +18,7 @@ int main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-/*
+/**
  * shell_loop - the infinite read, parse, execute loop
  * @envp: passed down so child processes inherit environemnt variables
  *
@@ -57,19 +57,8 @@ void shell_loop(char **envp)
 		if (args == NULL)
 			continue;
 
-		if (_strcmp(args[0], "exit") == 0)
-		{
-			free(args);
-			free(line);
-			exit(0);
-		}
-
-		if (_strcmp(args[0], "env") == 0)
-		{
-			print_env(envp);
-			free(args);
+		if (handle_builtins(args, line, envp))
 			continue;
-		}
 
 		execute(args, envp, "./hsh", cmd_count);
 		cmd_count++;

@@ -34,3 +34,28 @@ void print_env(char **envp)
 		i++;
 	}
 }
+
+/**
+ * handle_builtins - checks and runs builtin commands
+ * @args: array of argument string
+ * @line: input line
+ * @envp: environment variables
+ *
+ * Return: 1 if builtin was handled, 0 if not
+ */
+int handle_builtins(char **args, char *line, char **envp)
+{
+	if (_strcmp(args[0], "exit") == 0)
+	{
+		free(args);
+		free(line);
+		exit(0);
+	}
+	if (_strcmp(args[0], "env") == 0)
+	{
+		print_env(envp);
+		free(args);
+		return (1);
+	}
+	return (0);
+}
