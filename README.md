@@ -9,17 +9,17 @@ It reads commands from standard input then finds programs using the `PATH` envir
 
 ## Usage
 
-Interactive Mode
+**Interactive Mode**
 
-$./hsh
-($)/bin./l
-($)/bin/pwd
-($)exit
+$ ./hsh
+($) /bin./l
+($) /bin/pwd
+($) exit
 
 
-Noninteractive Mode
+**Noninteractive Mode**
 
-$ echo"/bin/ls"|./hsh
+$ echo "/bin/ls" | ./hsh
 $ cat commands.txt|./hsh
 
 ## Features
@@ -43,18 +43,18 @@ $ cat commands.txt|./hsh
 
 ## Examples
 
-Succuessful Example
+**Succuessful Example**
 
-$./hsh
-($)/bin/ls-la
-($)/bin/echo hello world
-($)env
-($)exit
+$ ./hsh
+($) /bin/ls-la
+($) /bin/echo hello world
+($) env
+($) exit
 
-Error Example
+**Error Example**
 
-$echo"qwerty"|./hsh
-./hsh:1:qwerty:not found
+$ echo "qwerty" | ./hsh
+./hsh: 1: qwerty: not found
 
 ## Compilation
 
