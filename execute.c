@@ -36,7 +36,7 @@ int execute(char **args, char **envp, char *prog_name, int cmd_count)
 	{
 		if (execve(full_path, args, envp) == -1)
 		{
-			perror(prog_name)
+			perror(prog_name);
 			free(full_path);
 			exit(1);
 		}

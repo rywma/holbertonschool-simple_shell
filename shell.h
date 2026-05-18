@@ -19,5 +19,6 @@ int execute(char **args, char **envp, char *prog_name, int cmd_count);
 void print_env(char **envp);
 int _strcmp(char *s1, char *s2);
 int handle_builtins(char **args, char *line, char **envp);
+char *search_dirs(char *cmd, char *path_copy);
 
 #endif

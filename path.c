@@ -7,7 +7,7 @@
  *
  * Return: pointer to the value string, or NULL if not found
  */
-char *get_env_value(char *name, char ** envp)
+char *get_env_value(char *name, char **envp)
 {
 	int i = 0;
 	size_t name_len;
@@ -16,7 +16,7 @@ char *get_env_value(char *name, char ** envp)
 		return (NULL);
 
 	name_len = strlen(name);
-	
+
 	while (envp[i] != NULL)
 	{
 		if (strncmp(envp[i], name, name_len) == 0 &&
@@ -25,6 +25,35 @@ char *get_env_value(char *name, char ** envp)
 			return (envp[i] + name_len + 1);
 		}
 		i++;
+	}
+	return (NULL);
+}
+
+/**
+ * search_dirs - searches directories in PATH for command
+ * @cmd: command name
+ * @path_copy: colon separated PATH string copy
+ *
+ * Return: full path if found, NULL if not
+ */
+char *search_dirs(char *cmd, char *path_copy)
+{
+	char *dir;
+	char *full_path;
+	size_t len;
+
+	dir = strtok(path_copy, ":");
+	while (dir != NULL)
+	{
+		len = strlen(dir) + strlen(cmd) + 2;
+		full_path = malloc(len);
+		if (full_path == NULL)
+			return (NULL);
+		sprintf(full_path, "%s/%s", dir, cmd);
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		free(full_path);
+		dir = strtok(NULL, ":");
 	}
 	return (NULL);
 }
@@ -40,9 +69,7 @@ char *find_path(char *cmd, char **envp)
 {
 	char *path_env;
 	char *path_copy;
-	char *dir;
 	char *full_path;
-	size_t len;
 
 	if (strchr(cmd, '/') != NULL)
 	{
@@ -58,30 +85,8 @@ char *find_path(char *cmd, char **envp)
 	path_copy = strdup(path_env);
 	if (path_copy == NULL)
 		return (NULL);
-	dir = strtok(path_copy, ":");
-
-	while (dir != NULL)
-	{
-		len = strlen(dir) + strlen(cmd) + 2;
-		full_path = malloc(len);
-		if (full_path == NULL)
-		{
-			free(path_copy);
-			return (NULL);
-		}
-
-		sprintf(full_path, "%s/%s", dir, cmd);
-
-		if (access(full_path, X_OK) == 0)
-		{
-			free(path_copy);
-			return (full_path);
-		}
-
-		free(full_path);
-		dir = strtok(NULL, ":");
-	}
-
+	
+	full_path = search_dirs(cmd, path_copy);
 	free(path_copy);
-	return (NULL);
+	return (full_path);
 }
