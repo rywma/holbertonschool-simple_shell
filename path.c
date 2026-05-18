@@ -85,7 +85,7 @@ char *find_path(char *cmd, char **envp)
 	path_copy = strdup(path_env);
 	if (path_copy == NULL)
 		return (NULL);
-	
+
 	full_path = search_dirs(cmd, path_copy);
 	free(path_copy);
 	return (full_path);

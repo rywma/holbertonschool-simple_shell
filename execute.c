@@ -46,4 +46,4 @@ int execute(char **args, char **envp, char *prog_name, int cmd_count)
 	free(full_path);
 
 	return (WEXITSTATUS(status));
-									  13,1          Topi
+}
