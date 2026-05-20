@@ -2,11 +2,11 @@
 
 /**
  * main - entry point
- * @argc: how many arguments were passed
- * @argv: the arguments as strings
+ * @argc: argument count
+ * @argv: argument vector
  * @envp: environment variables
  *
- * Return: 0 on success
+ * Return: 0
  */
 
 int main(int argc, char **argv, char **envp)
@@ -20,8 +20,8 @@ int main(int argc, char **argv, char **envp)
 }
 
 /**
- * shell_loop - the infinite read, parse, execute loop
- * @envp: passed down so child processes inherit environment variables
+ * shell_loop - shell main loop
+ * @envp: environment variables
  *
  * Return: void
  */
@@ -61,6 +61,13 @@ void shell_loop(char **envp)
 
 		if (args == NULL)
 			continue;
+
+		if (_strcmp(args[0], "exit") == 0)
+		{
+			free(args);
+			free(line);
+			exit(status);
+		}
 
 		if (handle_builtins(args, line, envp))
 			continue;
