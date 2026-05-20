@@ -3,12 +3,13 @@
 /**
  * execute - forks a child process then runs command
  * @args: NULL terminated array of strings
- * @envp: environmental variables for child process
- * @prog_name: name of the shell for errors messages
- * @cmd_count: number of commands ran for error messages
+ * @envp: environmental variables
+ * @prog_name: shell name
+ * @cmd_count: command number
  *
- * Return: exit status of child, or -1 on error
+ * Return: exit status
  */
+
 int execute(char **args, char **envp, char *prog_name, int cmd_count)
 {
 	pid_t pid;
@@ -16,6 +17,7 @@ int execute(char **args, char **envp, char *prog_name, int cmd_count)
 	char *full_path;
 
 	full_path = find_path(args[0], envp);
+
 	if (full_path == NULL)
 	{
 		fprintf(stderr, "%s: %d: %s: not found\n",
@@ -43,6 +45,7 @@ int execute(char **args, char **envp, char *prog_name, int cmd_count)
 	}
 
 	waitpid(pid, &status, 0);
+
 	free(full_path);
 
 	return (WEXITSTATUS(status));

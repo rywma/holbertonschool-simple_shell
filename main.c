@@ -8,6 +8,7 @@
  *
  * Return: 0 on success
  */
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -20,10 +21,11 @@ int main(int argc, char **argv, char **envp)
 
 /**
  * shell_loop - the infinite read, parse, execute loop
- * @envp: passed down so child processes inherit environemnt variables
+ * @envp: passed down so child processes inherit environment variables
  *
  * Return: void
  */
+
 void shell_loop(char **envp)
 {
 	char *line = NULL;
@@ -31,6 +33,7 @@ void shell_loop(char **envp)
 	ssize_t read;
 	char **args;
 	int cmd_count = 1;
+	int status = 0;
 
 	while (1)
 	{
@@ -43,8 +46,9 @@ void shell_loop(char **envp)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
+
 			free(line);
-			exit(0);
+			exit(status);
 		}
 
 		if (line[read - 1] == '\n')
@@ -54,15 +58,18 @@ void shell_loop(char **envp)
 			continue;
 
 		args = tokenize(line);
+
 		if (args == NULL)
 			continue;
 
 		if (handle_builtins(args, line, envp))
 			continue;
 
-		execute(args, envp, "./hsh", cmd_count);
+		status = execute(args, envp, "./hsh", cmd_count);
+
 		cmd_count++;
 		free(args);
 	}
+
 	free(line);
 }
